@@ -1,0 +1,393 @@
+2025-07-27 22:40:31,278 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,298 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-27 22:40:31,298 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-27 22:40:31,298 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-27 22:40:31,298 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,316 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-27 22:40:31,326 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-27 22:40:31,403 - RuntimeArtifactsCollector - INFO - Collected 10 changed files
+2025-07-27 22:40:31,403 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-27 22:40:31,403 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,403 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-27 22:40:31,403 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-27 22:40:31,403 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-27 22:40:31,403 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-27 22:40:31,403 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-27 22:40:31,403 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,407 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-27 22:40:31,472 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:40:31,474 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-27 22:40:31,475 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:40:31,475 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-27 22:40:31,475 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-27 22:40:31,475 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,492 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-27 22:40:31,505 - LoggingArtifactsCollector - INFO - Collected 2 Docker events
+2025-07-27 22:40:31,505 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-27 22:40:31,505 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-27 22:40:31,505 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,528 - MemoryArtifactsCollector - INFO - Collected 11 processes
+2025-07-27 22:40:31,577 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:40:31,577 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-27 22:40:31,577 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,577 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-27 22:40:31,640 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-27 22:40:31,678 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-27 22:40:31,678 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-27 22:40:31,678 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-27 22:40:31,678 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:31,697 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:40:31,698 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-27 22:40:31,784 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-27 22:40:31,803 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:40:47,757 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-27 22:40:47,758 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-27 22:40:47,758 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:40:47,847 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-27 22:40:47,962 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-27 22:40:48,073 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-27 22:40:48,163 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-27 22:40:48,189 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-27 22:40:48,189 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-27 22:40:48,191 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_224048.json.gz (size: 7.48 KB)
+2025-07-27 22:40:48,192 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250727_224048.txt
+2025-07-27 22:40:48,192 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_224048.json.gz
+2025-07-27 22:40:48,192 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed
+2025-07-27 22:43:24,784 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:24,803 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-27 22:43:24,804 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-27 22:43:24,804 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-27 22:43:24,804 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:24,821 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-27 22:43:24,829 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-27 22:43:24,900 - RuntimeArtifactsCollector - INFO - Collected 10 changed files
+2025-07-27 22:43:24,900 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-27 22:43:24,900 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:24,900 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-27 22:43:24,900 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-27 22:43:24,900 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-27 22:43:24,900 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-27 22:43:24,900 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-27 22:43:24,900 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:24,903 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-27 22:43:24,954 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:43:24,956 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-27 22:43:24,957 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:43:24,957 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-27 22:43:24,957 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-27 22:43:24,957 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:24,972 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-27 22:43:24,983 - LoggingArtifactsCollector - INFO - Collected 7 Docker events
+2025-07-27 22:43:24,984 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-27 22:43:24,984 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-27 22:43:24,984 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:25,000 - MemoryArtifactsCollector - INFO - Collected 12 processes
+2025-07-27 22:43:25,038 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:43:25,038 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-27 22:43:25,038 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:25,038 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-27 22:43:25,091 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-27 22:43:25,125 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-27 22:43:25,125 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-27 22:43:25,125 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-27 22:43:25,125 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:25,144 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:43:25,144 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-27 22:43:25,218 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-27 22:43:25,243 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:43:36,917 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-27 22:43:36,918 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-27 22:43:36,918 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:43:37,018 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-27 22:43:37,151 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-27 22:43:37,268 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-27 22:43:37,360 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-27 22:43:37,383 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-27 22:43:37,383 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-27 22:43:37,385 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_224337.json.gz (size: 7.70 KB)
+2025-07-27 22:43:37,386 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250727_224337.txt
+2025-07-27 22:43:37,386 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_224337.json.gz
+2025-07-27 22:43:37,386 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed
+2025-07-27 22:49:16,656 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,675 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-27 22:49:16,675 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-27 22:49:16,675 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-27 22:49:16,675 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,693 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-27 22:49:16,701 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-27 22:49:16,760 - RuntimeArtifactsCollector - INFO - Collected 12 changed files
+2025-07-27 22:49:16,761 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-27 22:49:16,761 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,761 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-27 22:49:16,761 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-27 22:49:16,761 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-27 22:49:16,761 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-27 22:49:16,761 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-27 22:49:16,761 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,763 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-27 22:49:16,810 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:49:16,811 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-27 22:49:16,813 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:49:16,813 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-27 22:49:16,813 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-27 22:49:16,813 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,829 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-27 22:49:16,842 - LoggingArtifactsCollector - INFO - Collected 10 Docker events
+2025-07-27 22:49:16,842 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-27 22:49:16,842 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-27 22:49:16,842 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,861 - MemoryArtifactsCollector - INFO - Collected 12 processes
+2025-07-27 22:49:16,901 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:49:16,901 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-27 22:49:16,901 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:16,901 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-27 22:49:16,957 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-27 22:49:16,992 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-27 22:49:16,992 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-27 22:49:16,992 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-27 22:49:16,992 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:17,011 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:49:17,012 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-27 22:49:17,090 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-27 22:49:17,114 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:49:28,656 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-27 22:49:28,657 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-27 22:49:28,657 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:49:28,764 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-27 22:49:28,899 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-27 22:49:29,023 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-27 22:49:29,116 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-27 22:49:29,139 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-27 22:49:29,140 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-27 22:49:29,142 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_224929.json.gz (size: 7.79 KB)
+2025-07-27 22:49:29,142 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250727_224929.txt
+2025-07-27 22:49:29,142 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_224929.json.gz
+2025-07-27 22:49:29,143 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed
+2025-07-27 22:56:22,323 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,342 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-27 22:56:22,342 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-27 22:56:22,342 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-27 22:56:22,342 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,361 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-27 22:56:22,368 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-27 22:56:22,439 - RuntimeArtifactsCollector - INFO - Collected 12 changed files
+2025-07-27 22:56:22,439 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-27 22:56:22,439 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,439 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-27 22:56:22,439 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-27 22:56:22,439 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-27 22:56:22,439 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-27 22:56:22,439 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-27 22:56:22,439 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,442 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-27 22:56:22,492 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:56:22,494 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-27 22:56:22,495 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:56:22,495 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-27 22:56:22,495 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-27 22:56:22,495 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,512 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-27 22:56:22,526 - LoggingArtifactsCollector - INFO - Collected 13 Docker events
+2025-07-27 22:56:22,526 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-27 22:56:22,526 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-27 22:56:22,526 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,546 - MemoryArtifactsCollector - INFO - Collected 12 processes
+2025-07-27 22:56:22,585 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:56:22,585 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-27 22:56:22,585 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,585 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-27 22:56:22,639 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-27 22:56:22,678 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-27 22:56:22,678 - StorageArtifactsCollector - INFO - Found StorageDrive type: overlayfs
+2025-07-27 22:56:22,678 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-27 22:56:22,678 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-27 22:56:22,679 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:22,698 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:56:22,698 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-27 22:56:22,775 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-27 22:56:22,798 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:56:34,555 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-27 22:56:34,556 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-27 22:56:34,556 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:56:34,661 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-27 22:56:34,790 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-27 22:56:34,905 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-27 22:56:34,994 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-27 22:56:35,017 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-27 22:56:35,017 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-27 22:56:35,020 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_225635.json.gz (size: 7.84 KB)
+2025-07-27 22:56:35,020 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250727_225635.txt
+2025-07-27 22:56:35,020 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_225635.json.gz
+2025-07-27 22:56:35,020 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed
+2025-07-27 22:57:28,205 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,229 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-27 22:57:28,229 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-27 22:57:28,229 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-27 22:57:28,229 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,246 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-27 22:57:28,254 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-27 22:57:28,323 - RuntimeArtifactsCollector - INFO - Collected 12 changed files
+2025-07-27 22:57:28,323 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-27 22:57:28,323 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,323 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-27 22:57:28,323 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-27 22:57:28,323 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-27 22:57:28,323 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-27 22:57:28,323 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-27 22:57:28,323 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,326 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-27 22:57:28,376 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:57:28,378 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-27 22:57:28,379 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:57:28,379 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-27 22:57:28,379 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-27 22:57:28,379 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,395 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-27 22:57:28,408 - LoggingArtifactsCollector - INFO - Collected 16 Docker events
+2025-07-27 22:57:28,408 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-27 22:57:28,408 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-27 22:57:28,408 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,427 - MemoryArtifactsCollector - INFO - Collected 12 processes
+2025-07-27 22:57:28,467 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 22:57:28,467 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-27 22:57:28,467 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,468 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-27 22:57:28,524 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-27 22:57:28,563 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-27 22:57:28,564 - StorageArtifactsCollector - INFO - Found StorageDrive type: overlayfs
+2025-07-27 22:57:28,564 - StorageArtifactsCollector - ERROR - Failed to collect whiteout files: 'NoneType' object has no attribute 'get'
+2025-07-27 22:57:28,564 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-27 22:57:28,564 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-27 22:57:28,564 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:28,583 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:57:28,583 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-27 22:57:28,659 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-27 22:57:28,679 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 22:57:40,161 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-27 22:57:40,161 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-27 22:57:40,161 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 22:57:40,271 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-27 22:57:40,413 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-27 22:57:40,531 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-27 22:57:40,622 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-27 22:57:40,645 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-27 22:57:40,645 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-27 22:57:40,648 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_225740.json.gz (size: 7.93 KB)
+2025-07-27 22:57:40,648 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250727_225740.txt
+2025-07-27 22:57:40,648 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_225740.json.gz
+2025-07-27 22:57:40,648 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed
+2025-07-27 23:00:40,744 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:40,762 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-27 23:00:40,762 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-27 23:00:40,762 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-27 23:00:40,762 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:40,779 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-27 23:00:40,787 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-27 23:00:40,858 - RuntimeArtifactsCollector - INFO - Collected 12 changed files
+2025-07-27 23:00:40,858 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-27 23:00:40,858 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:40,858 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-27 23:00:40,858 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-27 23:00:40,858 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-27 23:00:40,858 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-27 23:00:40,858 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-27 23:00:40,858 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:40,861 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-27 23:00:40,910 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 23:00:40,912 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-27 23:00:40,913 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 23:00:40,913 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-27 23:00:40,913 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-27 23:00:40,913 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:40,930 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-27 23:00:40,943 - LoggingArtifactsCollector - INFO - Collected 19 Docker events
+2025-07-27 23:00:40,943 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-27 23:00:40,943 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-27 23:00:40,943 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:40,962 - MemoryArtifactsCollector - INFO - Collected 12 processes
+2025-07-27 23:00:41,000 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-27 23:00:41,000 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-27 23:00:41,000 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:41,001 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-27 23:00:41,053 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-27 23:00:41,092 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-27 23:00:41,092 - StorageArtifactsCollector - INFO - Found StorageDrive type: overlayfs
+2025-07-27 23:00:41,092 - StorageArtifactsCollector - INFO - Found DriveData type: None
+2025-07-27 23:00:41,092 - StorageArtifactsCollector - ERROR - Failed to collect whiteout files: 'NoneType' object has no attribute 'get'
+2025-07-27 23:00:41,092 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-27 23:00:41,092 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-27 23:00:41,092 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:41,112 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 23:00:41,112 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-27 23:00:41,188 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-27 23:00:41,208 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-27 23:00:52,405 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-27 23:00:52,406 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-27 23:00:52,406 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-27 23:00:52,519 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-27 23:00:52,654 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-27 23:00:52,763 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-27 23:00:52,849 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-27 23:00:52,872 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-27 23:00:52,873 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-27 23:00:52,875 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_230052.json.gz (size: 8.05 KB)
+2025-07-27 23:00:52,876 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250727_230052.txt
+2025-07-27 23:00:52,876 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250727_230052.json.gz
+2025-07-27 23:00:52,876 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed
+2025-07-28 05:16:13,715 - DockerForensicsV2 - INFO - Starting Docker Forensics v2 for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:13,733 - DockerForensicsV2 - INFO - Collecting basic container information...
+2025-07-28 05:16:13,733 - DockerForensicsV2 - INFO - Collecting enhanced artifacts...
+2025-07-28 05:16:13,733 - DockerForensicsV2 - INFO - Running runtime collector...
+2025-07-28 05:16:13,733 - RuntimeArtifactsCollector - INFO - Collecting runtime artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:13,752 - RuntimeArtifactsCollector - INFO - Collected container state information
+2025-07-28 05:16:13,761 - RuntimeArtifactsCollector - INFO - Collected system information
+2025-07-28 05:16:13,835 - RuntimeArtifactsCollector - INFO - Collected 12 changed files
+2025-07-28 05:16:13,835 - DockerForensicsV2 - INFO - Running security collector...
+2025-07-28 05:16:13,835 - SecurityArtifactsCollector - INFO - Collecting security artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:13,835 - SecurityArtifactsCollector - ERROR - Failed to collect AppArmor profile: 'NoneType' object is not iterable
+2025-07-28 05:16:13,835 - SecurityArtifactsCollector - ERROR - Failed to collect Seccomp profile: 'NoneType' object is not iterable
+2025-07-28 05:16:13,835 - SecurityArtifactsCollector - INFO - Collected container capabilities
+2025-07-28 05:16:13,835 - SecurityArtifactsCollector - INFO - Collected user information
+2025-07-28 05:16:13,835 - DockerForensicsV2 - INFO - Running network collector...
+2025-07-28 05:16:13,835 - NetworkArtifactsCollector - INFO - Collecting network artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:13,838 - NetworkArtifactsCollector - WARNING - iptables not found
+2025-07-28 05:16:13,905 - NetworkArtifactsCollector - ERROR - Failed to collect network connections: [Errno 2] No such file or directory: 'nsenter'
+2025-07-28 05:16:13,906 - NetworkArtifactsCollector - ERROR - Failed to collect network namespace info: [Errno 2] No such file or directory: 'ip'
+2025-07-28 05:16:13,907 - NetworkArtifactsCollector - ERROR - Failed to collect network interfaces: [Errno 2] No such file or directory: 'nsenter'
+2025-07-28 05:16:13,907 - NetworkArtifactsCollector - INFO - Collected DNS configuration
+2025-07-28 05:16:13,907 - DockerForensicsV2 - INFO - Running logging collector...
+2025-07-28 05:16:13,907 - LoggingArtifactsCollector - INFO - Collecting logging artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:13,924 - LoggingArtifactsCollector - WARNING - journalctl not found
+2025-07-28 05:16:13,937 - LoggingArtifactsCollector - INFO - Container uses 'json-file' logging driver
+2025-07-28 05:16:13,937 - DockerForensicsV2 - INFO - Running memory collector...
+2025-07-28 05:16:13,937 - MemoryArtifactsCollector - INFO - Collecting memory artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:13,957 - MemoryArtifactsCollector - INFO - Collected 12 processes
+2025-07-28 05:16:14,004 - MemoryArtifactsCollector - ERROR - Failed to collect open files: [Errno 2] No such file or directory: 'nsenter'
+2025-07-28 05:16:14,005 - DockerForensicsV2 - INFO - Running storage collector...
+2025-07-28 05:16:14,005 - StorageArtifactsCollector - INFO - Collecting storage artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:14,005 - StorageArtifactsCollector - INFO - Storage driver: overlayfs
+2025-07-28 05:16:14,224 - StorageArtifactsCollector - INFO - Collected storage driver status
+2025-07-28 05:16:14,270 - StorageArtifactsCollector - INFO - Collected layer information: 4 layers
+2025-07-28 05:16:14,271 - StorageArtifactsCollector - INFO - Found StorageDrive type: overlayfs
+2025-07-28 05:16:14,271 - StorageArtifactsCollector - INFO - Found DriveData type: None
+2025-07-28 05:16:14,271 - StorageArtifactsCollector - WARNING - UpperDir not found in driver data for overlayfs
+2025-07-28 05:16:14,271 - StorageArtifactsCollector - WARNING - Unknown or unsupported storage driver: overlayfs
+2025-07-28 05:16:14,271 - DockerForensicsV2 - INFO - Running image collector...
+2025-07-28 05:16:14,271 - ImageArtifactsCollector - INFO - Collecting image artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:14,294 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-28 05:16:14,294 - ImageArtifactsCollector - INFO - Collected repositories info: 0 repositories
+2025-07-28 05:16:14,394 - ImageArtifactsCollector - INFO - Collected 14 image history entries
+2025-07-28 05:16:14,414 - ImageArtifactsCollector - INFO - Collected image info for sha256:cd7dfc212c737e86697e13047f6164de6dfcd79630073f43742f1fa2a716481c
+2025-07-28 05:16:25,777 - ImageArtifactsCollector - INFO - Collected image manifest
+2025-07-28 05:16:25,777 - DockerForensicsV2 - INFO - Running plugin collector...
+2025-07-28 05:16:25,778 - PluginArtifactsCollector - INFO - Collecting plugin artifacts for container 1c755683cfccad13e5326292edf67769e930beb589205cb6faf5624db8789f4c
+2025-07-28 05:16:25,885 - PluginArtifactsCollector - INFO - Collected volume plugin information
+2025-07-28 05:16:26,004 - PluginArtifactsCollector - INFO - Collected network plugin information
+2025-07-28 05:16:26,110 - PluginArtifactsCollector - INFO - Found 2 runtime plugins
+2025-07-28 05:16:26,200 - PluginArtifactsCollector - INFO - Collected Docker Desktop extensions information
+2025-07-28 05:16:26,223 - PluginArtifactsCollector - INFO - Collected third-party tools information
+2025-07-28 05:16:26,223 - DockerForensicsV2 - INFO - Saving artifacts to local storage...
+2025-07-28 05:16:26,226 - ArtifactSerializer - INFO - Saved artifacts to /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250728_051626.json.gz (size: 7.44 KB)
+2025-07-28 05:16:26,226 - ArtifactSerializer - INFO - Saved summary to /var/docker-forensics/artifacts/1c755683cfcc/summary_1c755683cfcc_20250728_051626.txt
+2025-07-28 05:16:26,226 - DockerForensicsV2 - INFO - Artifacts saved locally to: /var/docker-forensics/artifacts/1c755683cfcc/forensics_1c755683cfcc_20250728_051626.json.gz
+2025-07-28 05:16:26,226 - DockerForensicsV2 - INFO - Docker Forensics v2 collection completed

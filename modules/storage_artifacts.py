@@ -176,11 +176,41 @@ class StorageArtifactsCollector(BaseCollector):
             storage_driver = self.get_storage_driver()
             
             search_paths = []
+            self.logger.info(f"Found StorageDrive type: {storage_driver}")
+            self.logger.info(f"Found DriveData type: {driver_data}")
             
-            if storage_driver in ['overlay', 'overlay2']:
-                upper_dir = driver_data.get('UpperDir')
-                if upper_dir and os.path.exists(upper_dir):
-                    search_paths.append(upper_dir)
+            if storage_driver in ['overlay', 'overlay2', 'overlayfs']:
+                # Check if driver_data is None or empty
+                if driver_data and driver_data.get('UpperDir'):
+                    upper_dir = driver_data.get('UpperDir')
+                    if os.path.exists(upper_dir):
+                        search_paths.append(upper_dir)
+                else:
+                    # Fallback for overlayfs when UpperDir is not available
+                    self.logger.warning(f"UpperDir not found in driver data for {storage_driver}")
+                    
+                    # Try to find overlay directories by container ID
+                    overlay_paths = [
+                        f"/var/lib/docker/overlay/{self.container_id}",
+                        f"/var/lib/docker/overlay/{self.container_id}-init",
+                        f"/var/lib/docker/overlay/{self.container_id[:12]}",
+                        f"/var/lib/docker/overlay2/{self.container_id}",
+                        f"/var/lib/docker/overlay2/{self.container_id}-init",
+                        f"/var/lib/docker/overlay2/{self.container_id[:12]}"
+                    ]
+                    
+                    for path in overlay_paths:
+                        if os.path.exists(path):
+                            # Check for upper/diff directories
+                            upper_path = os.path.join(path, "upper")
+                            diff_path = os.path.join(path, "diff")
+                            
+                            if os.path.exists(upper_path):
+                                search_paths.append(upper_path)
+                                self.logger.info(f"Found overlay upper directory: {upper_path}")
+                            if os.path.exists(diff_path):
+                                search_paths.append(diff_path)
+                                self.logger.info(f"Found overlay diff directory: {diff_path}")
             elif storage_driver == 'aufs':
                 # For AUFS, search in diff directories
                 aufs_diff = f"/var/lib/docker/aufs/diff/{self.container_id}"
