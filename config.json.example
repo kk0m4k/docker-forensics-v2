@@ -1,0 +1,24 @@
+{
+    "ARTIFACTS": {
+        "BASE_PATH":"./artifacts/{}",
+        "EXECUTABLE_PATH":"BASE_PATH/executables/",
+        "DIFF_FILES_PATH":"BASE_PATH/diff_files/",
+        "LOG_JOURNALD_SERVICE":"TRUE"
+    },
+    "SYSLOGSERVER":{
+        "HOST": "1.1.1.1",
+        "PORT": 514
+    },
+    "local_storage": {
+        "path": "/var/docker-forensics/artifacts/",
+        "max_size_mb": 1000,
+        "compression": true
+    },
+    "api_server": {
+        "url": "https://forensics-api.example.com",
+        "api_key": "your-api-key-here",
+        "timeout": 30,
+        "retry_count": 3,
+        "chunk_size_mb": 10
+    }
+}
