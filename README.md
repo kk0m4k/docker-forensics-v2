@@ -3,7 +3,7 @@ Enhanced Docker forensics tool for gathering artifacts from Docker containers, w
 
 ## Features
 
-### Legacy Artifacts (v1)
+### Core Artifacts
 1. ✅ Whiteout: AUFS, Overlay/Overlay2
 2. ✅ Binary and metadata of Process running within container
 3. ✅ Result of *docker inspect command*
@@ -92,7 +92,6 @@ Edit `config.json` to configure:
     },
     "api_server": {
         "url": "https://forensics-api.example.com",
-        "api_key": "your-api-key-here",
         "timeout": 30,
         "retry_count": 3,
         "chunk_size_mb": 10
@@ -117,18 +116,14 @@ sudo python3 df_v2.py -i CONTAINER_ID --send-api
 sudo python3 df_v2.py -i CONTAINER_ID --save-local --send-api
 ```
 
-### Legacy Mode (Backward Compatible)
-```bash
-sudo python3 df.py -i CONTAINER_ID
-```
 
 ## API Server
 
 ### Starting the API Server
 ```bash
 # Set environment variables
-export FORENSICS_API_KEY="your-secure-api-key"
-export FORENSICS_JWT_SECRET="your-jwt-secret"
+export JWT_SECRET_KEY="your-jwt-secret-key"
+export JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30
 
 # Run server
 cd api
@@ -136,11 +131,12 @@ python3 server.py
 ```
 
 ### API Endpoints
-- `POST /api/v1/artifacts` - Submit artifacts
-- `GET /api/v1/artifacts/{id}` - Retrieve specific artifact
-- `GET /api/v1/artifacts` - List artifacts
+- `POST /api/v1/auth/login` - Login and get JWT token
+- `POST /api/v1/artifacts` - Submit artifacts (requires JWT)
+- `GET /api/v1/artifacts/{id}` - Retrieve specific artifact (requires JWT)
+- `GET /api/v1/artifacts` - List artifacts (requires JWT)
 - `GET /api/v1/health` - Health check
-- `DELETE /api/v1/artifacts/{id}` - Delete artifact
+- `DELETE /api/v1/artifacts/{id}` - Delete artifact (requires JWT)
 
 ### Using Docker
 ```bash
@@ -150,7 +146,8 @@ docker build -t docker-forensics-api ./api
 # Run API server
 docker run -d \
   -p 8000:8000 \
-  -e FORENSICS_API_KEY="your-api-key" \
+  -e JWT_SECRET_KEY="your-jwt-secret-key" \
+  -e JWT_ACCESS_TOKEN_EXPIRE_MINUTES=30 \
   -v /var/docker-forensics/db:/var/docker-forensics/db \
   docker-forensics-api
 ```
@@ -169,7 +166,7 @@ docker run -d \
     "errors": []
   },
   "artifacts": {
-    "legacy": { ... },
+    "core": { ... },
     "runtime": { ... },
     "security": { ... },
     "network": { ... },
@@ -199,7 +196,7 @@ docker run -d \
 
 ## Security Considerations
 
-1. **API Authentication**: Always use strong API keys
+1. **API Authentication**: JWT tokens expire after configured time (default 30 minutes)
 2. **TLS/SSL**: Use HTTPS for API communication
 3. **File Permissions**: Artifact files contain sensitive data
 4. **Network Security**: Restrict API server access
@@ -230,7 +227,8 @@ flake8 .
 
 3. **API Connection Failed**
    - Verify API server URL and connectivity
-   - Check API key configuration
+   - Check JWT token is valid and not expired
+   - Obtain new token via /api/v1/auth/login endpoint
 
 4. **Storage Full**
    - Check `max_size_mb` in configuration
