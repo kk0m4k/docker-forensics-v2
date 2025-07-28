@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-Docker Forensics API Server
+Docker Forensics API Server with JWT Authentication
 
 This module implements the FastAPI-based REST API server for receiving and storing
-Docker forensics artifacts. It provides endpoints for artifact submission, retrieval,
-and management with API key authentication.
+Docker forensics artifacts with JWT-based authentication.
 
 Features:
+    - JWT-based authentication with login endpoint
     - RESTful API endpoints for artifact management
-    - API key-based authentication
     - Chunked upload support for large artifacts
     - Background processing tasks
     - File-based database storage
@@ -18,34 +17,46 @@ Features:
 Author: Kim, Tae hoon (Francesco)
 """
 
-from fastapi import FastAPI, HTTPException, Depends, File, UploadFile, BackgroundTasks
+from contextlib import asynccontextmanager
+from fastapi import FastAPI, HTTPException, Depends, BackgroundTasks
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from typing import Dict, Any, List, Optional
 from datetime import datetime
 import os
 import json
 import uuid
-import hashlib
+import base64
 from .models import ArtifactModel, ArtifactResponse, HealthResponse, ChunkedUploadInit, ChunkData
 from .database import Database
-from .auth import verify_api_key
+from .auth import verify_api_key, generate_token, verify_token
 import logging
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Initialize database
+db = Database()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Manage application startup and shutdown events."""
+    # Startup
+    await db.initialize()
+    logger.info("Docker Forensics API server started")
+    yield
+    # Shutdown
+    await db.close()
+    logger.info("Docker Forensics API server stopped")
+
 # Initialize FastAPI app
 app = FastAPI(
     title="Docker Forensics API",
-    description="REST API for receiving and storing Docker forensics artifacts",
-    version="2.0.0"
+    description="REST API for receiving and storing Docker forensics artifacts with JWT authentication",
+    version="2.0.0",
+    lifespan=lifespan
 )
-
-# Initialize database
-db = Database()
 
 # Security
 security = HTTPBearer()
@@ -54,23 +65,85 @@ security = HTTPBearer()
 chunked_uploads = {}
 
 
-@app.on_event("startup")
-async def startup_event():
-    """Initialize database on startup"""
-    await db.initialize()
-    logger.info("Docker Forensics API server started")
+class LoginRequest(BaseModel):
+    """Login request model for JWT authentication"""
+    api_key: str
 
 
-@app.on_event("shutdown")
-async def shutdown_event():
-    """Cleanup on shutdown"""
-    await db.close()
-    logger.info("Docker Forensics API server stopped")
+class LoginResponse(BaseModel):
+    """Login response model containing JWT token"""
+    access_token: str
+    token_type: str = "bearer"
+    expires_in: int = 86400  # 24 hours
 
 
+# === Authentication Dependency ===
+async def verify_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
+    """
+    FastAPI dependency to verify JWT tokens.
+    
+    Returns:
+        dict: Decoded JWT payload containing user claims
+    
+    Raises:
+        HTTPException: If token is invalid or expired (401)
+    """
+    token = credentials.credentials
+    payload = verify_token(token)
+    
+    if not payload:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid or expired token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    return payload
+
+
+# === Authentication Endpoints ===
+@app.post("/api/v1/auth/login", response_model=LoginResponse)
+async def login(request: LoginRequest):
+    """
+    Login endpoint to exchange API key for JWT token.
+    
+    Args:
+        request: Login request containing API key
+    
+    Returns:
+        JWT token and metadata
+    """
+    # Verify API key
+    if not verify_api_key(request.api_key):
+        raise HTTPException(status_code=401, detail="Invalid API key")
+    
+    # Generate JWT token
+    token = generate_token(user_id="forensics_user", additional_claims={
+        "scope": "artifacts:read artifacts:write",
+        "client": "docker-forensics"
+    })
+    
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "expires_in": 86400
+    }
+
+
+@app.get("/api/v1/me")
+async def get_current_user(token_payload: dict = Depends(verify_jwt)):
+    """Get current user information from JWT token"""
+    return {
+        "user_id": token_payload.get("user_id"),
+        "scope": token_payload.get("scope"),
+        "expires_at": datetime.fromtimestamp(token_payload.get("exp")).isoformat()
+    }
+
+
+# === Health Check Endpoint ===
 @app.get("/api/v1/health", response_model=HealthResponse)
 async def health_check():
-    """Health check endpoint"""
+    """Health check endpoint (no authentication required)"""
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
@@ -79,18 +152,14 @@ async def health_check():
     }
 
 
+# === Artifact Management Endpoints ===
 @app.post("/api/v1/artifacts", response_model=ArtifactResponse)
 async def create_artifact(
     artifact: ArtifactModel,
     background_tasks: BackgroundTasks,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    token_payload: dict = Depends(verify_jwt)
 ):
     """Create a new artifact entry"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
     try:
         # Generate unique ID
         artifact_id = str(uuid.uuid4())
@@ -104,6 +173,7 @@ async def create_artifact(
             "artifact_count": artifact.metadata.artifact_count,
             "checksum": artifact.metadata.checksum,
             "created_at": datetime.now().isoformat(),
+            "created_by": token_payload.get("user_id", "unknown"),
             "status": "received",
             "artifacts": artifact.artifacts
         }
@@ -114,7 +184,7 @@ async def create_artifact(
         # Background task for processing
         background_tasks.add_task(process_artifact, artifact_id, artifact_doc)
         
-        logger.info(f"Created artifact {artifact_id} for container {artifact.metadata.container_id}")
+        logger.info(f"Created artifact {artifact_id} for container {artifact.metadata.container_id} by user {token_payload.get('user_id')}")
         
         return {
             "id": artifact_id,
@@ -131,14 +201,9 @@ async def create_artifact(
 @app.get("/api/v1/artifacts/{artifact_id}")
 async def get_artifact(
     artifact_id: str,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    token_payload: dict = Depends(verify_jwt)
 ):
     """Get artifact by ID"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
     artifact = await db.get_artifact(artifact_id)
     
     if not artifact:
@@ -152,14 +217,9 @@ async def list_artifacts(
     container_id: Optional[str] = None,
     limit: int = 100,
     offset: int = 0,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    token_payload: dict = Depends(verify_jwt)
 ):
     """List artifacts with optional filtering"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
     artifacts = await db.list_artifacts(
         container_id=container_id,
         limit=limit,
@@ -174,17 +234,29 @@ async def list_artifacts(
     }
 
 
+@app.delete("/api/v1/artifacts/{artifact_id}")
+async def delete_artifact(
+    artifact_id: str,
+    token_payload: dict = Depends(verify_jwt)
+):
+    """Delete an artifact"""
+    success = await db.delete_artifact(artifact_id)
+    
+    if not success:
+        raise HTTPException(status_code=404, detail="Artifact not found")
+    
+    logger.info(f"Deleted artifact {artifact_id} by user {token_payload.get('user_id')}")
+    
+    return {"message": f"Artifact {artifact_id} deleted successfully"}
+
+
+# === Chunked Upload Endpoints ===
 @app.post("/api/v1/artifacts/chunked/init")
 async def init_chunked_upload(
     init_data: ChunkedUploadInit,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    token_payload: dict = Depends(verify_jwt)
 ):
     """Initialize chunked upload session"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
     session_id = str(uuid.uuid4())
     
     # Store session info
@@ -192,10 +264,11 @@ async def init_chunked_upload(
         "metadata": init_data.metadata,
         "total_chunks": init_data.total_chunks,
         "received_chunks": {},
-        "created_at": datetime.now().isoformat()
+        "created_at": datetime.now().isoformat(),
+        "user_id": token_payload.get("user_id", "unknown")
     }
     
-    logger.info(f"Initialized chunked upload session {session_id}")
+    logger.info(f"Initialized chunked upload session {session_id} by user {token_payload.get('user_id')}")
     
     return {
         "session_id": session_id,
@@ -207,18 +280,17 @@ async def init_chunked_upload(
 async def upload_chunk(
     session_id: str,
     chunk_data: ChunkData,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    token_payload: dict = Depends(verify_jwt)
 ):
     """Upload a chunk of data"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
     if session_id not in chunked_uploads:
         raise HTTPException(status_code=404, detail="Upload session not found")
     
     session = chunked_uploads[session_id]
+    
+    # Verify user owns the session
+    if session.get("user_id") != token_payload.get("user_id"):
+        raise HTTPException(status_code=403, detail="Not authorized to upload to this session")
     
     # Store chunk
     session["received_chunks"][chunk_data.chunk_number] = chunk_data.chunk_data
@@ -236,18 +308,17 @@ async def upload_chunk(
 async def finalize_chunked_upload(
     session_id: str,
     background_tasks: BackgroundTasks,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
+    token_payload: dict = Depends(verify_jwt)
 ):
     """Finalize chunked upload and reassemble data"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
     if session_id not in chunked_uploads:
         raise HTTPException(status_code=404, detail="Upload session not found")
     
     session = chunked_uploads[session_id]
+    
+    # Verify user owns the session
+    if session.get("user_id") != token_payload.get("user_id"):
+        raise HTTPException(status_code=403, detail="Not authorized to finalize this session")
     
     # Verify all chunks received
     if len(session["received_chunks"]) != session["total_chunks"]:
@@ -258,7 +329,6 @@ async def finalize_chunked_upload(
     
     try:
         # Reassemble data
-        import base64
         chunks = []
         for i in range(session["total_chunks"]):
             chunk_data = session["received_chunks"][i]
@@ -278,6 +348,7 @@ async def finalize_chunked_upload(
             "artifact_count": session["metadata"]["artifact_count"],
             "checksum": session["metadata"]["checksum"],
             "created_at": datetime.now().isoformat(),
+            "created_by": token_payload.get("user_id", "unknown"),
             "status": "received",
             "artifacts": artifact_data["artifacts"],
             "upload_method": "chunked"
@@ -305,27 +376,7 @@ async def finalize_chunked_upload(
         raise HTTPException(status_code=500, detail=f"Failed to process chunked upload: {str(e)}")
 
 
-@app.delete("/api/v1/artifacts/{artifact_id}")
-async def delete_artifact(
-    artifact_id: str,
-    credentials: HTTPAuthorizationCredentials = Depends(security)
-):
-    """Delete an artifact"""
-    
-    # Verify API key
-    if not verify_api_key(credentials.credentials):
-        raise HTTPException(status_code=401, detail="Invalid API key")
-    
-    success = await db.delete_artifact(artifact_id)
-    
-    if not success:
-        raise HTTPException(status_code=404, detail="Artifact not found")
-    
-    logger.info(f"Deleted artifact {artifact_id}")
-    
-    return {"message": f"Artifact {artifact_id} deleted successfully"}
-
-
+# === Background Tasks ===
 async def process_artifact(artifact_id: str, artifact_doc: Dict[str, Any]):
     """Background task to process artifact after storage"""
     try:
