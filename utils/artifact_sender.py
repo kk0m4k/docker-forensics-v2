@@ -27,12 +27,11 @@ class ArtifactSender:
     Handle sending artifacts to REST API server.
     
     This class provides functionality to:
-    - Send artifacts to a REST API endpoint
-    - Support chunked upload for large files
-    - Implement retry logic with exponential backoff
-    - Check server health before sending
-    - Handle authentication via API keys
-    - Track upload status
+    - Authenticate with the server to get a JWT.
+    - Send artifacts to a REST API endpoint using JWT.
+    - Support chunked upload for large files.
+    - Implement retry logic with exponential backoff.
+    - Check server health before sending.
     
     Attributes:
         config (Dict[str, Any]): Configuration dictionary
@@ -43,6 +42,7 @@ class ArtifactSender:
         retry_count (int): Number of retry attempts
         chunk_size (int): Size of chunks for large uploads
         session (requests.Session): HTTP session for connection pooling
+        jwt_token (Optional[str]): JWT token for authentication
     """
     
     def __init__(self, config: Dict[str, Any]):
@@ -64,13 +64,60 @@ class ArtifactSender:
             'Content-Type': 'application/json'
         })
         
-        if self.api_key:
-            self.session.headers['Authorization'] = f'Bearer {self.api_key}'
-    
+        self.jwt_token = None
+
+    def _login(self) -> bool:
+        """Login to the API server to get a JWT token."""
+        if not self.api_key:
+            self.logger.error("API key is not configured. Cannot authenticate.")
+            return False
+
+        # If we already have a token, assume it's valid for this run.
+        if self.jwt_token:
+            return True
+
+        login_endpoint = f"{self.api_url}/api/v1/auth/login"
+        self.logger.info(f"Authenticating with API server at {login_endpoint}...")
+
+        try:
+            # Use a temporary session for login to avoid sending an old, invalid JWT
+            login_session = requests.Session()
+            login_session.headers.update({
+                'User-Agent': 'DockerForensics/2.0',
+                'Content-Type': 'application/json'
+            })
+            response = login_session.post(
+                login_endpoint,
+                json={"api_key": self.api_key},
+                timeout=self.timeout
+            )
+
+            if response.status_code == 200:
+                token_data = response.json()
+                self.jwt_token = token_data.get("access_token")
+                if not self.jwt_token:
+                    self.logger.error("Login successful, but no access_token in response.")
+                    return False
+                
+                self.session.headers['Authorization'] = f'Bearer {self.jwt_token}'
+                self.logger.info("Successfully authenticated and received JWT token.")
+                return True
+            else:
+                self.logger.error(f"Authentication failed. Status: {response.status_code}, Body: {response.text}")
+                return False
+
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"Failed to connect to login endpoint: {e}")
+            return False
+
     def send_artifacts(self, serialized_data: Dict[str, Any], 
                       local_file_path: Optional[str] = None) -> Dict[str, Any]:
         """Send artifacts to API server"""
         
+        # First, authenticate to get JWT
+        if not self._login():
+            return {'success': False, 'error': 'Authentication failed.'}
+
         endpoint = f"{self.api_url}/api/v1/artifacts"
         
         # Prepare metadata for initial request
@@ -118,13 +165,19 @@ class ArtifactSender:
                         'response': result
                     }
                 elif response.status_code == 401:
-                    return {
-                        'success': False,
-                        'error': 'Authentication failed. Check API key.',
-                        'status_code': response.status_code
-                    }
+                    self.logger.warning("Received 401 Unauthorized. Token may have expired. Attempting to re-authenticate.")
+                    self.jwt_token = None # Force re-login
+                    if self._login():
+                        self.logger.info("Re-authentication successful. Retrying request.")
+                        # We need to resend, so we continue the loop to retry
+                        continue
+                    else:
+                         return {
+                            'success': False,
+                            'error': 'Re-authentication failed.',
+                            'status_code': response.status_code
+                        }
                 elif response.status_code == 413:
-                    # Payload too large - try chunked upload
                     self.logger.warning("Payload too large, switching to chunked upload")
                     return self._send_chunked(endpoint, data, metadata)
                 else:
@@ -132,7 +185,6 @@ class ArtifactSender:
                     self.logger.warning(error_msg)
                     
                     if attempt < self.retry_count - 1:
-                        # Exponential backoff
                         wait_time = 2 ** attempt
                         self.logger.info(f"Retrying in {wait_time} seconds...")
                         time.sleep(wait_time)
@@ -185,6 +237,11 @@ class ArtifactSender:
             )
             
             if init_response.status_code != 200:
+                if init_response.status_code == 401:
+                    self.logger.warning("Chunked init failed with 401. Re-authenticating...")
+                    self.jwt_token = None
+                    if self._login():
+                        return self._send_chunked(endpoint, data, metadata)
                 return {
                     'success': False,
                     'error': f"Failed to initialize chunked upload: {init_response.text}"
@@ -284,12 +341,17 @@ class ArtifactSender:
     
     def get_artifact_status(self, artifact_id: str) -> Dict[str, Any]:
         """Get status of previously sent artifact"""
+        if not self._login():
+            return {'error': 'Authentication failed.'}
+        
         try:
             status_endpoint = f"{self.api_url}/api/v1/artifacts/{artifact_id}"
             response = self.session.get(status_endpoint, timeout=self.timeout)
             
             if response.status_code == 200:
                 return response.json()
+            elif response.status_code == 401:
+                 return {'error': 'Authentication failed. Check API key or token.'}
             else:
                 return {
                     'error': f"Failed to get status: {response.status_code}"
