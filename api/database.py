@@ -46,7 +46,7 @@ class Database:
         lock (asyncio.Lock): Lock for concurrent access control
     """
     
-    def __init__(self, db_path: str = "/var/docker-forensics/db"):
+    def __init__(self, db_path: str = "./data/db"):
         self.db_path = Path(db_path)
         self.artifacts_path = self.db_path / "artifacts"
         self.index_path = self.db_path / "index.json"

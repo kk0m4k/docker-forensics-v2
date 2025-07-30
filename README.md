@@ -71,6 +71,67 @@ pip3 install -r requirements.txt
 # Copy and configure settings
 cp config.json.example config.json
 # Edit config.json with your settings
+
+### Using Virtual Environment (Recommended)
+
+If you're using pyenv, activate the docker-forensics environment:
+
+```bash
+# Activate the virtual environment
+pyenv activate docker-forensics
+
+# Install dependencies in the virtual environment
+pip install -r requirements.txt
+```
+
+## Running the API Server
+
+The project includes a REST API server for receiving and storing forensics artifacts.
+
+### Quick Start
+
+```bash
+# Option 1: Use the startup script (recommended)
+cd api && ./start_server.sh
+
+# Option 2: Manual activation and run
+cd api
+pyenv activate docker-forensics
+python server.py
+
+# Option 3: Direct run (if dependencies are installed)
+cd api && python3 server.py
+
+# Run with custom host and port
+cd api && python server.py --host 0.0.0.0 --port 8000
+
+# Run with auto-reload for development
+cd api && python server.py --reload
+```
+
+### API Server Features
+
+- **JWT Authentication**: Secure API access with JWT tokens
+- **Artifact Storage**: File-based database for storing artifacts
+- **Chunked Upload**: Support for large artifact files
+- **Health Monitoring**: Built-in health check endpoints
+- **Background Processing**: Asynchronous artifact processing
+
+### API Endpoints
+
+- `POST /api/v1/auth/login` - Authenticate and get JWT token
+- `GET /api/v1/health` - Health check
+- `POST /api/v1/artifacts` - Create new artifact
+- `GET /api/v1/artifacts/{id}` - Get artifact by ID
+- `GET /api/v1/artifacts` - List artifacts
+- `DELETE /api/v1/artifacts/{id}` - Delete artifact
+- `POST /api/v1/artifacts/chunked/init` - Initialize chunked upload
+- `POST /api/v1/artifacts/chunked/{session_id}/chunk` - Upload chunk
+- `POST /api/v1/artifacts/chunked/{session_id}/finalize` - Finalize upload
+
+### Database
+
+The API server uses a local file-based database stored in `./data/db/`. This directory will be created automatically when the server starts.
 ```
 
 ## Configuration
