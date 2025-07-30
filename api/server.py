@@ -27,9 +27,15 @@ import os
 import json
 import uuid
 import base64
-from .models import ArtifactModel, ArtifactResponse, HealthResponse, ChunkedUploadInit, ChunkData
-from .database import Database
-from .auth import verify_api_key, generate_token, verify_token
+import sys
+import pathlib
+
+# Add the parent directory to the Python path to allow imports
+sys.path.append(str(pathlib.Path(__file__).parent.parent))
+
+from api.models import ArtifactModel, ArtifactResponse, HealthResponse, ChunkedUploadInit, ChunkData
+from api.database import Database
+from api.auth import verify_api_key, generate_token, verify_token
 import logging
 
 # Configure logging
@@ -400,5 +406,22 @@ async def process_artifact(artifact_id: str, artifact_doc: Dict[str, Any]):
 
 
 if __name__ == "__main__":
+    import argparse
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    
+    parser = argparse.ArgumentParser(description="Docker Forensics API Server")
+    parser.add_argument("--host", default="0.0.0.0", help="Host to bind to")
+    parser.add_argument("--port", type=int, default=8000, help="Port to bind to")
+    parser.add_argument("--reload", action="store_true", help="Enable auto-reload for development")
+    
+    args = parser.parse_args()
+    
+    print(f"Starting Docker Forensics API Server on {args.host}:{args.port}")
+    print("Press Ctrl+C to stop the server")
+    
+    uvicorn.run(
+        app,
+        host=args.host,
+        port=args.port,
+        reload=args.reload
+    )
