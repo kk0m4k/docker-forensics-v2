@@ -21,37 +21,43 @@ Author: Kim, Tae hoon (Francesco)
 """
 
 import os
+import json
 import hashlib
 import secrets
 from typing import Optional
 from datetime import datetime, timedelta
+from pathlib import Path
 import jwt
 
 
+# Load configuration from config.json
+config_path = Path(__file__).parent / "config.json"
+with open(config_path, 'r') as f:
+    config = json.load(f)
+
 # Configuration
-API_KEY_ENV = "FORENSICS_API_KEY"
-JWT_SECRET_ENV = "FORENSICS_JWT_SECRET"
-JWT_ALGORITHM = "HS256"
-JWT_EXPIRATION_HOURS = 24
+auth_config = config["authentication"]
+API_KEY = auth_config.get("api_key", "")
+JWT_SECRET = auth_config.get("jwt_secret", "")
+JWT_ALGORITHM = auth_config["jwt_algorithm"]
+JWT_EXPIRATION_HOURS = auth_config["jwt_expiration_hours"]
 
 
 def get_api_key() -> Optional[str]:
     """
-    Get API key from environment variable.
+    Get API key from configuration.
     
     Returns:
         Optional[str]: API key if set, None otherwise
     """
-    return os.environ.get(API_KEY_ENV)
+    return API_KEY if API_KEY else None
 
 
 def get_jwt_secret() -> str:
-    """Get JWT secret from environment or generate one"""
-    secret = os.environ.get(JWT_SECRET_ENV)
-    if not secret:
-        # Generate a random secret if not provided
-        secret = secrets.token_urlsafe(32)
-    return secret
+    """Get JWT secret from configuration"""
+    if not JWT_SECRET:
+        raise ValueError("JWT secret not found in config.json. Please set it.")
+    return JWT_SECRET
 
 
 def verify_api_key(provided_key: str) -> bool:

@@ -119,3 +119,6 @@ dmypy.json
 debug/
 debug.log
 *.log
+
+# API Configuration (contains secrets)
+api/config.json
