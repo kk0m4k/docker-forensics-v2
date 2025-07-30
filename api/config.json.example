@@ -1,0 +1,8 @@
+{
+    "authentication": {
+        "api_key": "your-api-key-here",
+        "jwt_secret": "your-jwt-secret-here",
+        "jwt_algorithm": "HS256",
+        "jwt_expiration_hours": 24
+    }
+}
